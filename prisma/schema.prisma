@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model News {
+  id Int @id @default(autoincrement())
+  title String @unique
+  image String
+  eventDate DateTime
+  activeStatus Boolean
+  description String @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model User {
+  id Int @id @default(autoincrement()) 
+  login String @unique
+  password String
+  role Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Employee {
+  id Int @id @default(autoincrement())
+  name String
+  surname String
+  biography String @db.Text
+  photo String 
+  competence CompetenceEmployees[]
+}
+
+model Development {
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  techniqueAttribute String
+  partners String[]
+  statusDate DateTime
+  isComplete Boolean
+  image String[]
+  competence CompetenceDevelopments[]
+}
+
+model Competence {
+  id Int @id @default(autoincrement())
+  title String @unique
+  shortDescription String @db.Text
+  fullDescription String @db.Text
+  images String[]
+  provision String @db.Text
+  developments CompetenceDevelopments[]
+  employess CompetenceEmployees[]
+}
+
+model CompetenceDevelopments {
+  competence Competence @relation(fields: [competenceId], references: [id])
+  competenceId Int
+  development Development @relation(fields: [developmentId], references: [id])
+  developmentId Int 
+  assignedAt DateTime @default(now())
+  assignedBy String
+  @@id([competenceId, developmentId])
+}
+
+model CompetenceEmployees {
+  competence Competence @relation(fields: [competenceId], references: [id])
+  competenceId Int
+  employee Employee @relation(fields: [employeeId], references: [id])
+  employeeId Int 
+  assignedAt DateTime @default(now())
+  assignedBy String
+  @@id([competenceId, employeeId])
+}
