@@ -39,6 +39,7 @@
     "class-validator": "^0.13.2",
     "cross-env": "^7.0.3",
     "graphql": "^16.6.0",
+    "graphql-config": "^4.3.5",
     "graphql-scalars": "^1.18.0",
     "graphql-tools": "^8.3.6",
     "nestjs-prisma": "^0.18.0",
