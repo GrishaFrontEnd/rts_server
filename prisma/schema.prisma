@@ -42,6 +42,7 @@ model Employee {
   biography String @db.Text
   photo String 
   competence CompetenceEmployees[]
+  courses CourseEmployee[]
 }
 
 model Development {
@@ -85,4 +86,22 @@ model CompetenceEmployees {
   assignedAt DateTime @default(now())
   assignedBy String
   @@id([competenceId, employeeId])
+}
+
+model Course {
+  id Int @id @default(autoincrement())
+  descriptionCourse String @db.Text
+  finallyCompetence String[]
+  imagesCourse String[]
+  teachers CourseEmployee[]
+}
+
+model CourseEmployee {
+  course Course @relation(fields: [courseId], references: [id])
+  courseId Int
+  employee Employee @relation(fields: [employeeId], references: [id])
+  employeeId Int
+  assignedAt DateTime @default(now())
+  assignedBy String
+  @@id([courseId, employeeId])
 }

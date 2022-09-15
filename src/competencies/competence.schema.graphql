@@ -1,8 +1,0 @@
-export type Competence {
-    id: ID!
-    title: String!
-    shortDescription: String!
-    fullDescription: String!
-    images: [String!]!
-    
-}
